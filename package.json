@@ -16,14 +16,18 @@
   },
   "homepage": "https://github.com/sungho-heo/Fakecatchmind#readme",
   "devDependencies": {
-    "@babel/core": "^7.21.4",
-    "@babel/node": "^7.20.7",
-    "@babel/preset-env": "^7.21.4",
-    "nodemon": "^2.0.22"
+    "eslint-config-prettier": "^4.1.0",
+    "eslint-plugin-prettier": "^3.0.1",
+    "prettier": "^2.8.7",
   },
   "dependencies": {
     "express": "^4.18.2",
     "morgan": "^1.10.0",
+    "@babel/core": "^7.21.4",
+    "@babel/node": "^7.20.7",
+    "@babel/preset-env": "^7.21.4",
+    "eslint": "^8.38.0",
+    "nodemon": "^2.0.22",
     "pug": "^3.0.2",
     "socket.io": "^4.6.1"
   }
