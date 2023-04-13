@@ -24,6 +24,6 @@ const server = app.listen(PORT, handelListen);
 const io = new Server(server);
 
 io.on("connection", (socket) => {
-    console.log(socket);
+    socket.on("goto", () => console.log("saild hello "));
 });
 
