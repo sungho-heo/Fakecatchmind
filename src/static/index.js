@@ -1,5 +1,18 @@
 const socket = io("/");
 
-socket.on("hello", () => console.log("Sombdoy joined"));
+function sendMessage(message) {
+    socket.emit("newMessage", { message });
+    console.log(`You:${message}`);
+};
 
-setTimeout(() => socket.emit("goto"), 4000);
+function setNickname(nickname) {
+    socket.emit("setNickname", { nickname });
+};
+
+function handleMessageNotif(data) {
+    const message = data.message;
+    const nickname = data.nickname;
+    console.log(`${nickname}: ${message}`);
+}
+
+socket.on("messageNotif", handleMessageNotif);

@@ -24,6 +24,14 @@ const server = app.listen(PORT, handelListen);
 const io = new Server(server);
 
 io.on("connection", (socket) => {
-    socket.on("goto", () => console.log("saild hello "));
+    socket.on("newMessage", ({ message }) => {
+        socket.broadcast.emit("messageNotif", {
+            message,
+            nickname: socket.nickname || "human",
+        });
+    });
+    socket.on("setNickname", ({ nickname }) => {
+        socket.nickname = nickname;
+    })
 });
 
