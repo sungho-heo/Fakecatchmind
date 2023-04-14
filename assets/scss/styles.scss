@@ -1,3 +1,15 @@
+@import "body";
+
+@keyframes good {
+    from{
+        color: blue;
+    }
+    to{
+        color: red;
+    }
+};
+
 body{
-    color: black;
+    position: sticky;
 }
+
