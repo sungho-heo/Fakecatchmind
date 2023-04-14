@@ -2,7 +2,7 @@ import gulp from "gulp";
 import gulpSass from "gulp-sass";
 import dartSass from "sass";
 import autoprefixer from "gulp-autoprefixer";
-import minifyCSS from "gulp-csso";
+import csso from "gulp-csso";
 
 
 // watch assets/scss/모든파일중에서/*.sccs파일만 수정하면 다시 최적화및 css파일 변환작업진행함.
@@ -25,7 +25,7 @@ function styles() {
                 cascade: false,
             })
         )
-        .pipe(minifyCSS())
+        .pipe(csso())
         .pipe(gulp.dest(paths.styles.dest));
 }
 
