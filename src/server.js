@@ -1,6 +1,7 @@
 import express from "express";
 import morgan from "morgan";
 import { Server } from "socket.io"
+import socketController from "./socketController";
 // import apiRouter from "./router/apiRouter";
 
 const app = express();
@@ -23,15 +24,5 @@ const server = app.listen(PORT, handelListen);
 
 const io = new Server(server);
 
-io.on("connection", (socket) => {
-    socket.on("newMessage", ({ message }) => {
-        socket.broadcast.emit("messageNotif", {
-            message,
-            nickname: socket.nickname || "human",
-        });
-    });
-    socket.on("setNickname", ({ nickname }) => {
-        socket.nickname = nickname;
-    })
-});
+io.on("connection", (socket) => socketController(socket));
 
