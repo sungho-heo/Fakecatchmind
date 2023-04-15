@@ -2,6 +2,7 @@ import express from "express";
 import morgan from "morgan";
 import { Server } from "socket.io"
 import socketController from "./socketController";
+import events from "./events";
 // import apiRouter from "./router/apiRouter";
 
 const app = express();
@@ -13,7 +14,7 @@ app.set("view engine", "pug");
 app.set("views", process.cwd() + "/src/views");
 app.use(loggerMorgan);
 app.use(express.static(process.cwd() +  "/src/static"));
-app.get("/", (req, res) => { res.render("home") });
+app.get("/", (req, res) =>  res.render("home", { events: JSON.stringify(events) }) );
 
 const handelListen = (req, res) => {
     console.log(`✅ Server running: http://localhost:${PORT}/`);
