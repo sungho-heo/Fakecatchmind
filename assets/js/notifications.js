@@ -1,10 +1,10 @@
-const body = document.getElementById("body");
+const body = document.querySelector("body");
 
 const firstNotification = (text, color) => {
     const notification = document.createElement("div");
     notification.innerText = text;
-    notification.style.background = color;
-    notification.className = "notification"
+    notification.style.backgroundColor = color;
+    notification.className = "notification";
     body.appendChild(notification);
 };
 
