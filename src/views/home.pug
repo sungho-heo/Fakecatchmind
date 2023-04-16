@@ -11,8 +11,10 @@ html(lang="ko")
             form#gameLogin
                 input(type="text" placeholder="What your game nickname?" )
         .gameContainer#gameCatchMind
-            h1 You are logged in
-            div#gameNotifications
+            .chat
+                ul.chat__messages#gameMessages
+                form.chat__form#gameSendMsg
+                    input(type="text", placeholder="Write a message")
         script. 
             window.events = !{events}
         script(src="/socket.io/socket.io.js")

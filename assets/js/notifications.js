@@ -1,12 +1,12 @@
-const notifications = document.getElementById("gameNotifications");
+const body = document.getElementById("body");
 
 const firstNotification = (text, color) => {
     const notification = document.createElement("div");
     notification.innerText = text;
     notification.style.background = color;
     notification.className = "notification"
-    notifications.appendChild(notification);
-}
+    body.appendChild(notification);
+};
 
 export const handleNewUser = ({ nickname }) => {
     firstNotification(`${nickname} joined`, "rgb(0, 122, 255)");
