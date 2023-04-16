@@ -1,3 +1,5 @@
+import { initSockets } from "./sockets.js";
+
 const body = document.querySelector("body");
 const loginForm = document.getElementById("gameLogin");
 
@@ -7,10 +9,13 @@ const nickname = localStorage.getItem(NICKNAME);
 
 
 const logIn = (nickname) => {
-    window.socket = io("/");
-    console.log(window.events.setNickname);
-    window.socket.emit(window.events.setNickname, { nickname })
-}
+    const socket = io("/");
+    socket.emit(window.events.setNickname, { nickname });
+    initSockets(socket);
+};
+
+
+
 
 
 if (nickname === null) {
