@@ -5,9 +5,9 @@
 "use strict";require("./sockets.js"),require("./login.js"),require("./notifications.js");
 
 },{"./login.js":1,"./notifications.js":3,"./sockets.js":4}],3:[function(require,module,exports){
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.handleNewUser=void 0;var notifications=document.getElementById("gameNotifications"),handleNewUser=function(e){var n=e.nickname;console.log(n,"joined")};exports.handleNewUser=handleNewUser;
+"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.handleNewUser=exports.handleDisconnect=void 0;var notifications=document.getElementById("gameNotifications"),firstNotification=function(e,n){var t=document.createElement("div");t.innerText=e,t.style.background=n,t.className="notification",notifications.appendChild(t)},handleNewUser=function(e){var n=e.nickname;firstNotification("".concat(n," joined"),"rgb(0, 122, 255)")};exports.handleNewUser=handleNewUser;var handleDisconnect=function(e){var n=e.nickname;firstNotification("".concat(n," log out!"),"rgb(255, 149, 0)")};exports.handleDisconnect=handleDisconnect;
 
 },{}],4:[function(require,module,exports){
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.updateSocket=exports.initSockets=exports.getSocket=void 0;var _notifications=require("./notifications.js"),socket=null,getSocket=function(){return socket};exports.getSocket=getSocket;var updateSocket=function(t){return socket=t};exports.updateSocket=updateSocket;var initSockets=function(t){var e=window.events;updateSocket(t),t.on(e.newUser,_notifications.handleNewUser)};exports.initSockets=initSockets;
+"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.updateSocket=exports.initSockets=exports.getSocket=void 0;var _notifications=require("./notifications.js"),socket=null,getSocket=function(){return socket};exports.getSocket=getSocket;var updateSocket=function(t){return socket=t};exports.updateSocket=updateSocket;var initSockets=function(t){var e=window.events;updateSocket(t),t.on(e.newUser,_notifications.handleNewUser),t.on(e.disconnected,_notifications.handleDisconnect)};exports.initSockets=initSockets;
 
 },{"./notifications.js":3}]},{},[2]);
