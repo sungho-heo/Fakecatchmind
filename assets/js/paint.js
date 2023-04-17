@@ -5,17 +5,11 @@ canvas.width = 800;
 canvas.height = 800;
 
 
-context.moveTo(50, 50);
-context.lineTo(150, 50);
-context.lineTo(150, 150);
-context.lineTo(50, 150);
-context.lineTo(50, 50);
-// context.stroke();
-context.fill();
+context.rect(200, 200, 50, 200);
+context.rect(500, 200, 50, 200);
+context.rect(350, 300, 50, 100);
+context.moveTo(200, 200);
+context.lineTo(380, 100);
+context.lineTo(550, 200);
+context.fill()
 
-context.beginPath();
-context.rect(500, 500, 100, 100);
-context.rect(550, 550, 100, 100);
-context.rect(600, 600, 100, 100);
-context.fillStyle = "orange";
-context.fill();
