@@ -11,6 +11,11 @@ html(lang="ko")
             form#gameLogin
                 input(type="text" placeholder="What your game nickname?" )
         .gameContainer#gameCatchMind
+            .main
+                canvas.canvas#gameCanvas
+                .controls#controls
+                    button#canvasMode Fill
+                    .colors
             .chat
                 ul.chat__messages#gameMessages
                 form.chat__form#gameSendMsg

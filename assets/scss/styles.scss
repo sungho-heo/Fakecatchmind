@@ -4,6 +4,7 @@
 @import "notifications.scss";
 @import "reset";
 @import "login";
+@import "game";
 
 
 * {
@@ -37,7 +38,7 @@ body {
   }
   &.loggedIn {
     .gameContainer {
-      display: block;
+      display: flex;
     }
   }
 }

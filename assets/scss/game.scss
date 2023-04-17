@@ -1,0 +1,19 @@
+.gameContainer {
+    display:flex;
+    width: 90%;
+    margin: 0 auto;
+    justify-content: center;
+    .canvas, .chat__messages{
+        background-color: white;
+        height: 65vh;
+        border-radius: 15px;
+        box-shadow: $chatShadow;
+    }
+    .main{
+        margin-right: 200px;
+    }
+    #gameCanvas{
+        width: 800px;
+        height: 800px;
+    }
+}
