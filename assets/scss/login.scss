@@ -1,4 +1,4 @@
-input {
+input:not(input[type="range"]) {
   padding: 10px;
   border: 0;
   background-color: $greyColor;
