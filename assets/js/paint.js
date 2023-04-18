@@ -1,13 +1,14 @@
 const canvas = document.querySelector("canvas");
+const lineRange = document.getElementById("line__width");
+const color = document.getElementById("color");
 const eraser = document.getElementById("canvas__delete");
-const line__width = document.getElementById("line__width");
 const context = canvas.getContext("2d");
 
 canvas.width = 800;
 canvas.height = 800;
-let painting = false;
-context.lineWidth = line__width.value;
 
+let painting = false;
+context.lineWidth = lineRange.value;
 
 
 
@@ -30,20 +31,28 @@ const endPainting = () => {
     context.beginPath();
 }
 
-const handleEraser = () => {
-    context.reset();
+const handleEraser = (event) => {
+    context.clearRect(0, 0, 800, 800);
 }
 
-const handleLineWidth = (event) => {
+const handleLineRange = (event) => {
     context.lineWidth = event.target.value;
-};
+}
+
+const handleColor = (event) => {
+    const value = event.target.value;
+    context.fillStyle = value;
+    context.strokeStyle = value;
+}
 
 canvas.addEventListener("mousemove", onMove);
 canvas.addEventListener("mousedown", startPainting);
 canvas.addEventListener("mouseup", endPainting);
 canvas.addEventListener("mouseleave", endPainting);
 eraser.addEventListener("click", handleEraser);
-line__width.addEventListener("change", handleLineWidth);
+color.addEventListener("change", handleColor);
+lineRange.addEventListener("change", handleLineRange);
+
 
 
 
