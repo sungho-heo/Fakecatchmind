@@ -1,37 +1,44 @@
 const canvas = document.querySelector("canvas");
+const eraser = document.getElementById("canvas__delete");
 const context = canvas.getContext("2d");
 
 canvas.width = 800;
 canvas.height = 800;
 
-const colors = [
-    "#FF6D60",
-    "#98D8AA",
-    "#C0DBEA",
-    "#BA90C6",
-    "#DDFFBB",
-    "#FEDEFF",
-];
+let painting = false;
 
-const moveChange = (x, y) => {
-    context.beginPath();
+
+
+const onMove = (event) => {
+    const x = event.offsetX;
+    const y = event.offsetY;
+    if (painting) {
+        context.lineTo(x, y);
+        context.stroke();
+        console.log(x, y);
+    };
     context.moveTo(x, y);
 };
 
-const onClick = (event) => {
-    const x = event.offsetX;
-    const y = event.offsetY;
-    moveChange(0, 0);
-    context.lineTo(x, y);
-    context.strokeStyle = colors[Math.floor(Math.random() * colors.length)];
-    context.stroke();
-    moveChange(400, 400);
-    context.lineTo(x, y);
-    context.strokeStyle = colors[Math.floor(Math.random() * colors.length)];
-    context.stroke();    
+const startPainting = () => {
+    painting = true;
+};
+
+const endPainting = () => {
+    painting = false;
 }
 
+const handleEraser = () => {
+    context.reset();
+}
 
-canvas.addEventListener("mousemove", onClick);
+canvas.addEventListener("mousemove", onMove);
+canvas.addEventListener("mousedown", startPainting);
+canvas.addEventListener("mouseup", endPainting);
+canvas.addEventListener("mouseleave", endPainting);
+eraser.addEventListener("click", handleEraser);
+
+
+
 
 
