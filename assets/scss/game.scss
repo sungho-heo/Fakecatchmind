@@ -16,4 +16,36 @@
         width: 800px;
         height: 800px;
     }
+    .controls{
+        margin-top: 25px;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        .colors__mode{
+            margin: 20px;
+            display: flex;
+            &:hover .colors__style{
+                opacity: 0.95;
+                transform: translateX(-3px);
+            }
+            .colors__style{
+                height: 50px;
+                width: 50px;
+                cursor: pointer;
+                box-shadow: $boxShadow;
+                border-radius: 25px;
+                transition: opacity 0.1s linear, scale 0.1s  linear, transform 0.1s linear;
+                &:hover{
+                    opacity: 1;
+                    transform: scale(1,1);
+                    & ~ .colors__style{
+                        transform: translateX(3px);
+                    }
+                }
+                &:selectedColor{
+                    box-shadow: none;
+                }
+            }
+        }
+    }
 }
