@@ -27,9 +27,14 @@ const beginPath = (x, y) => {
     context.moveTo(x, y);
 };
 
-const strokePath = (x, y) => {
-    context.lineTo(x, y);
-    context.stroke();
+const strokePath = (x, y, color = null) => {
+    let currentColor = context.strokeStyle;
+    if (color !== null) {
+        context.strokeStyle = color
+    }
+    context.lineTo(x, y)
+    context.stroke()
+    context.stokeStyle = currentColor
 };
 
 
@@ -39,9 +44,13 @@ const onMove = (event) => {
     if (!painting) {
         beginPath(x, y);
         getSocket().emit(window.events.beginPath, { x, y });
-    } else {
-        strokePath(x, y);
-        getSocket().emit(window.events.strokePath, { x, y });
+    } else if (!isFilling) {
+            strokePath(x, y);
+        getSocket().emit(window.events.strokePath, {
+            x,
+            y,
+            color: context.strokeStyle,
+        });
     }
 };
 
@@ -87,10 +96,19 @@ const handleCanvasMode = () => {
         canvasIcon.className = "fa-solid fa-pencil";
     }
 };
+const fill = (color =null) => {
+    let currentColor = context.fillStyle;
+    if (color !== null) {
+        context.fillStyle = color;
+    }
+    context.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    context.fillStyle = currentColor;
+}
 
 const handleCanvasClick = () => {
     if (isFilling) {
-        context.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+        fill();
+        getSocket().emit(window.events.fill, { color: context.fillStyle });
     }
 };
 
@@ -119,6 +137,7 @@ lineRange.addEventListener("change", handleLineRange);
 gameColor.forEach((color) => color.addEventListener("click", handleColorChange));
 
 export const handleBeganPath = ({ x, y }) => beginPath(x, y);
-export const handleStrokedPath = ({ x, y }) => strokePath(x, y);
+export const handleStrokedPath = ({ x, y, color }) => strokePath(x, y, color);
+export const handleFill = ({ color }) => fill(color);
 
 
