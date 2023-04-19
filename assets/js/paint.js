@@ -6,6 +6,7 @@ const canvasClean = document.getElementById("canvas__clean");
 const context = canvas.getContext("2d");
 const gameColor = Array.from(document.getElementsByClassName("gameColor"));
 const canvasMode = document.getElementById("canvasMode");
+const canvasIcon = document.querySelector(".buttons i");
 
 
 
@@ -16,7 +17,7 @@ canvas.height = CANVAS_HEIGHT;
 
 let painting = false;
 let isFilling = false;
-let isEaraser = false;
+let isEraser = false;
 context.lineWidth = lineRange.value;
 
 
@@ -68,10 +69,10 @@ const handleColorChange = (event) => {
 const handleCanvasMode = () => {
     if (isFilling) {
         isFilling = false;
-        canvasMode.innerText = "Fill";
+        canvasIcon.className = "fa-solid fa-fill";
     } else {
         isFilling = true;
-        canvasMode.innerText = "Draw";
+        canvasIcon.className = "fa-solid fa-pencil";
     }
 };
 
@@ -82,14 +83,14 @@ const handleCanvasClick = () => {
 };
 
 const handleEaraser = () => {
-    if (isEaraser) {
-        isEaraser = false;
-        context.strokeStyle = "black";
+    if (isEraser) {
+        isEraser = false;
+        context.strokeStyle = color.value;
     } else {
-        isEaraser = true;
+        isEraser = true;
         context.strokeStyle = "white";
         isFilling = false;
-        canvasMode.innerText = "Fill";
+        canvasIcon.className = "fa-solid fa-fill";
     }
 };
 
