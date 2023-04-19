@@ -1,3 +1,4 @@
+import { getSocket } from './sockets';
 const canvas = document.querySelector("canvas");
 const lineRange = document.getElementById("line__width");
 const color = document.getElementById("color");
@@ -21,15 +22,27 @@ let isEraser = false;
 context.lineWidth = lineRange.value;
 
 
+const beginPath = (x, y) => {
+    context.beginPath();
+    context.moveTo(x, y);
+};
+
+const strokePath = (x, y) => {
+    context.lineTo(x, y);
+    context.stroke();
+};
+
 
 const onMove = (event) => {
     const x = event.offsetX;
     const y = event.offsetY;
-    if (painting) {
-        context.lineTo(x, y);
-        context.stroke();
-    };
-    context.moveTo(x, y);
+    if (!painting) {
+        beginPath(x, y);
+        getSocket().emit(window.events.beginPath, { x, y });
+    } else {
+        strokePath(x, y);
+        getSocket().emit(window.events.strokePath, { x, y });
+    }
 };
 
 const startPainting = () => {
@@ -38,7 +51,6 @@ const startPainting = () => {
 
 const endPainting = () => {
     painting = false;
-    context.beginPath();
 }
 
 const handleClean = (event) => {
@@ -106,7 +118,7 @@ color.addEventListener("change", handleColor);
 lineRange.addEventListener("change", handleLineRange);
 gameColor.forEach((color) => color.addEventListener("click", handleColorChange));
 
-
-
+export const handleBeganPath = ({ x, y }) => beginPath(x, y);
+export const handleStrokedPath = ({ x, y }) => strokePath(x, y);
 
 
