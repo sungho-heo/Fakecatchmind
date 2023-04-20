@@ -1,0 +1,19 @@
+.player__board {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-rows: 33px;
+  grid-gap: 5px;
+  margin-bottom: 20px;
+  span {
+    box-shadow: $boxShadow;
+    background-color: white;
+    padding: 10px;
+    text-align: center;
+    border-radius: 20px;
+    margin-right: 20px;
+    width: 100%;
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
