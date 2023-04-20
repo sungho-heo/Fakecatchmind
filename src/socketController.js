@@ -18,21 +18,31 @@ const socketController = (socket,io) => {
             inProgress = true;
             const painter = choosePainter();
             word = chooseWord();
+            io.to(painter.id).emit(events.painterNotif, { word });
+            allBroadcast(events.gameStarted);
         }
-    }
+    };
+    const endGame = () => {
+        inProgress = false
+    };
 
     socket.on(events.setNickname, ({ nickname }) => {
         socket.nickname = nickname;
         sockets.push({ id: socket.id, points: 0, nickname: socket.nickname });
         broadcast(events.newUser, { nickname });
         sendPlayerUpadte();
-        startGame();
+        if (sockets.length === 1) {
+            startGame();
+        }
     });
     
     socket.on(events.disconnect, () => {
         sockets = sockets.filter((aSocket) => aSocket.id !== socket.id);
         broadcast(events.disconnected, { nickname: socket.nickname });
         sendPlayerUpadte();
+        if (sockets.length === 1) {
+            endGame();
+        }
     });
 
     socket.on(events.sendMessage, ({ message }) => {

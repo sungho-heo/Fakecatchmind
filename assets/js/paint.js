@@ -8,6 +8,7 @@ const context = canvas.getContext("2d");
 const gameColor = Array.from(document.getElementsByClassName("gameColor"));
 const canvasMode = document.getElementById("canvasMode");
 const canvasIcon = document.querySelector(".buttons i");
+const controls = document.getElementById("controls");
 
 
 
@@ -124,11 +125,23 @@ const handleEaraser = () => {
     }
 };
 
-canvas.addEventListener("mousemove", onMove);
-canvas.addEventListener("mousedown", startPainting);
-canvas.addEventListener("mouseup", endPainting);
-canvas.addEventListener("mouseleave", endPainting);
-canvas.addEventListener("click", handleCanvasClick);
+export const enableCanvas = () => {
+    canvas.addEventListener("mousemove", onMove);
+    canvas.addEventListener("mousedown", startPainting);
+    canvas.addEventListener("mouseup", endPainting);
+    canvas.addEventListener("mouseleave", endPainting);
+    canvas.addEventListener("click", handleCanvasClick);
+};
+
+export const disableCanvas = () => {
+    canvas.removeEventListener("mousemove", onMove);
+    canvas.removeEventListener("mousedown", startPainting);
+    canvas.removeEventListener("mouseup", endPainting);
+    canvas.removeEventListener("mouseleave", endPainting);
+    canvas.removeEventListener("click", handleCanvasClick);
+};
+
+enableCanvas();
 canvasMode.addEventListener("click", handleCanvasMode);
 canvasClean.addEventListener("click", handleClean);
 earaser.addEventListener("click", handleEaraser);
@@ -139,5 +152,6 @@ gameColor.forEach((color) => color.addEventListener("click", handleColorChange))
 export const handleBeganPath = ({ x, y }) => beginPath(x, y);
 export const handleStrokedPath = ({ x, y, color }) => strokePath(x, y, color);
 export const handleFill = ({ color }) => fill(color);
-
+export const hideControls = () => (controls.style.opacity = 0);
+export const showControls = () => (controls.style.opacity = 1);
 
