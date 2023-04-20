@@ -1,15 +1,25 @@
 import events from "./events.js";
 
-const socketController = (socket) => {
+let sockets = [];
+
+const socketController = (socket,io) => {
     const broadcast = (event, data) => socket.broadcast.emit(event, data);
-    
+    const allBroadcast = (event, data) => io.emit(event, data);
+    const sendPlayerUpadte = () => {
+        allBroadcast(events.playerUpdate, { sockets });
+    };
+
     socket.on(events.setNickname, ({ nickname }) => {
         socket.nickname = nickname;
+        sockets.push({ id: socket.id, point: 0, nickname: socket.nickname });
         broadcast(events.newUser, { nickname });
+        sendPlayerUpadte();
     });
     
     socket.on(events.disconnect, () => {
+        sockets = sockets.filter((aSocket) => aSocket.id !== socket.id);
         broadcast(events.disconnected, { nickname: socket.nickname });
+        sendPlayerUpadte();
     });
 
     socket.on(events.sendMessage, ({ message }) => {
@@ -28,5 +38,7 @@ const socketController = (socket) => {
         broadcast(events.filled, { color });
     })
 };
+
+// setInterval(() => console.log(sockets), 3000);
 
 export default socketController;
