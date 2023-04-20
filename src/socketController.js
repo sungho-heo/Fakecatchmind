@@ -1,6 +1,11 @@
 import events from "./events.js";
+import { chooseWord } from "./words.js";
 
 let sockets = [];
+let inProgress = false;
+let word = null;
+
+const choosePainter = () => sockets[Math.floor(Math.random() * sockets.length)];
 
 const socketController = (socket,io) => {
     const broadcast = (event, data) => socket.broadcast.emit(event, data);
@@ -8,12 +13,20 @@ const socketController = (socket,io) => {
     const sendPlayerUpadte = () => {
         allBroadcast(events.playerUpdate, { sockets });
     };
+    const startGame = () => {
+        if (inProgress === false) {
+            inProgress = true;
+            const painter = choosePainter();
+            word = chooseWord();
+        }
+    }
 
     socket.on(events.setNickname, ({ nickname }) => {
         socket.nickname = nickname;
-        sockets.push({ id: socket.id, point: 0, nickname: socket.nickname });
+        sockets.push({ id: socket.id, points: 0, nickname: socket.nickname });
         broadcast(events.newUser, { nickname });
         sendPlayerUpadte();
+        startGame();
     });
     
     socket.on(events.disconnect, () => {
