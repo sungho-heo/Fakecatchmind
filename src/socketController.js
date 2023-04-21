@@ -19,16 +19,27 @@ const socketController = (socket,io) => {
             inProgress = true;
             painter = choosePainter();
             word = chooseWord();
+            allBroadcast(events.gameStarting);
             setTimeout(() => {
                 allBroadcast(events.gameStarted);
                 io.to(painter.id).emit(events.painterNotif, { word });
-            }, 2000);
+            }, 5000);
         }
     };
     const endGame = () => {
         inProgress = false
         allBroadcast(events.gameEnded);
     };
+    const addPoints = (id) => {
+        sockets = sockets.map((socket) => {
+            if (socket.id === id) {
+                socket.points += 10;
+            }
+            return socket;
+        });
+        sendPlayerUpadte();
+        endGame();
+    }
 
     socket.on(events.setNickname, ({ nickname }) => {
         socket.nickname = nickname;
@@ -54,7 +65,15 @@ const socketController = (socket,io) => {
     });
 
     socket.on(events.sendMessage, ({ message }) => {
-        broadcast(events.newMessage, { message, nickname: socket.nickname });
+        if (message === word) {
+            allBroadcast(events.newMessage, {
+                message: `Winner is ${socket.nickname}, word was: ${word}`,
+                nickname: "Bot"
+            });
+            addPoints(socket.id);
+        } else {
+            broadcast(events.newMessage, { message, nickname: socket.nickname });
+        }
     });
 
     socket.on(events.beginPath, ({ x, y }) => {

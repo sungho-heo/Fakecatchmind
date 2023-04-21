@@ -1,10 +1,11 @@
 import {
-  hideControls,
-  disableCanvas,
-  enableCanvas,
-  showControls,
-  resetCanvas,
-} from "./paint"
+    hideControls,
+    disableCanvas,
+    enableCanvas,
+    showControls,
+    resetCanvas,
+} from "./paint";
+import { enableChat, disableChat } from "./chat";
 const board = document.getElementById("gameBoard");
 const notifs = document.getElementById("gameNotifs");
 
@@ -32,6 +33,7 @@ export const handleGameStarted = () => {
 export const handlePainterNotif = ({word}) => {
     enableCanvas();
     showControls();
+    disableChat();
     notifs.innerText = `You are the painter paint: ${word}`;
 }
 
@@ -41,3 +43,5 @@ export const handleGameEnded = () => {
     hideControls();
     resetCanvas();
 }
+
+export const handleGameStarting = () => setNotif("Game will start soon");

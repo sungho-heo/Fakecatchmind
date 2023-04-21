@@ -6,7 +6,8 @@ import {
   handleGameStarted,
   handlePainterNotif,
   handleGameEnded,
-} from "./player.js"
+  handleGameStarting,
+} from "./player.js";
 let socket = null;
 
 export const getSocket = () => socket;
@@ -25,6 +26,7 @@ export const initSockets = (aSocket) => {
     socket.on(events.gameStarted, handleGameStarted);
     socket.on(events.painterNotif, handlePainterNotif);
     socket.on(events.gameEnded, handleGameEnded);
+    socket.on(events.gameStarting, handleGameStarting);
 };
 
 
