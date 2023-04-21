@@ -4,6 +4,7 @@ import { chooseWord } from "./words.js";
 let sockets = [];
 let inProgress = false;
 let word = null;
+let painter = null;
 
 const choosePainter = () => sockets[Math.floor(Math.random() * sockets.length)];
 
@@ -16,14 +17,17 @@ const socketController = (socket,io) => {
     const startGame = () => {
         if (inProgress === false) {
             inProgress = true;
-            const painter = choosePainter();
+            painter = choosePainter();
             word = chooseWord();
-            io.to(painter.id).emit(events.painterNotif, { word });
-            allBroadcast(events.gameStarted);
+            setTimeout(() => {
+                allBroadcast(events.gameStarted);
+                io.to(painter.id).emit(events.painterNotif, { word });
+            }, 2000);
         }
     };
     const endGame = () => {
         inProgress = false
+        allBroadcast(events.gameEnded);
     };
 
     socket.on(events.setNickname, ({ nickname }) => {
@@ -31,7 +35,7 @@ const socketController = (socket,io) => {
         sockets.push({ id: socket.id, points: 0, nickname: socket.nickname });
         broadcast(events.newUser, { nickname });
         sendPlayerUpadte();
-        if (sockets.length === 1) {
+        if (sockets.length === 2) {
             startGame();
         }
     });
@@ -42,6 +46,10 @@ const socketController = (socket,io) => {
         sendPlayerUpadte();
         if (sockets.length === 1) {
             endGame();
+        } else if (painter){
+            if (painter.id === socket.id) {
+                endGame();
+            }
         }
     });
 

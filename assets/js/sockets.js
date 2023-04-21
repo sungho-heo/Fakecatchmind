@@ -1,7 +1,12 @@
 import { handleNewUser, handleDisconnect } from "./notifications.js";
 import { handleNewMessage } from "./chat.js";
 import { handleBeganPath, handleStrokedPath, handleFill } from "./paint.js";
-import { handlePlayerUpdate, handleGameStarted } from "./player.js"
+import {
+  handlePlayerUpdate,
+  handleGameStarted,
+  handlePainterNotif,
+  handleGameEnded,
+} from "./player.js"
 let socket = null;
 
 export const getSocket = () => socket;
@@ -18,6 +23,8 @@ export const initSockets = (aSocket) => {
     socket.on(events.filled, handleFill);
     socket.on(events.playerUpdate, handlePlayerUpdate);
     socket.on(events.gameStarted, handleGameStarted);
+    socket.on(events.painterNotif, handlePainterNotif);
+    socket.on(events.gameEnded, handleGameEnded);
 };
 
 

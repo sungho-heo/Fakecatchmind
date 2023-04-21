@@ -141,7 +141,16 @@ export const disableCanvas = () => {
     canvas.removeEventListener("click", handleCanvasClick);
 };
 
-enableCanvas();
+export const handleBeganPath = ({ x, y }) => beginPath(x, y);
+export const handleStrokedPath = ({ x, y, color }) => strokePath(x, y, color);
+export const handleFill = ({ color }) => fill(color);
+export const hideControls = () => (controls.style.opacity = 0);
+export const showControls = () => (controls.style.opacity = 1);
+
+export const resetCanvas = () =>
+    context.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+hideControls();
 canvasMode.addEventListener("click", handleCanvasMode);
 canvasClean.addEventListener("click", handleClean);
 earaser.addEventListener("click", handleEaraser);
@@ -149,9 +158,5 @@ color.addEventListener("change", handleColor);
 lineRange.addEventListener("change", handleLineRange);
 gameColor.forEach((color) => color.addEventListener("click", handleColorChange));
 
-export const handleBeganPath = ({ x, y }) => beginPath(x, y);
-export const handleStrokedPath = ({ x, y, color }) => strokePath(x, y, color);
-export const handleFill = ({ color }) => fill(color);
-export const hideControls = () => (controls.style.opacity = 0);
-export const showControls = () => (controls.style.opacity = 1);
+
 
