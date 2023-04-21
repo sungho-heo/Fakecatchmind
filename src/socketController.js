@@ -5,6 +5,7 @@ let sockets = [];
 let inProgress = false;
 let word = null;
 let painter = null;
+let timeout = null;
 
 const choosePainter = () => sockets[Math.floor(Math.random() * sockets.length)];
 
@@ -15,20 +16,27 @@ const socketController = (socket,io) => {
         allBroadcast(events.playerUpdate, { sockets });
     };
     const startGame = () => {
-        if (inProgress === false) {
-            inProgress = true;
-            painter = choosePainter();
-            word = chooseWord();
-            allBroadcast(events.gameStarting);
-            setTimeout(() => {
-                allBroadcast(events.gameStarted);
-                io.to(painter.id).emit(events.painterNotif, { word });
-            }, 5000);
+        if (sockets.length > 1) {
+            if (inProgress === false) {
+                inProgress = true;
+                painter = choosePainter();
+                word = chooseWord();
+                allBroadcast(events.gameStarting);
+                setTimeout(() => {
+                    allBroadcast(events.gameStarted);
+                    io.to(painter.id).emit(events.painterNotif, { word });
+                    timeout = setTimeout(endGame, 10000);
+                }, 5000);
+            }
         }
     };
     const endGame = () => {
         inProgress = false
         allBroadcast(events.gameEnded);
+        if (timeout !== null) {
+            clearTimeout(timeout);
+        }
+        setTimeout(() => startGame(), 2000);
     };
     const addPoints = (id) => {
         sockets = sockets.map((socket) => {
@@ -46,9 +54,7 @@ const socketController = (socket,io) => {
         sockets.push({ id: socket.id, points: 0, nickname: socket.nickname });
         broadcast(events.newUser, { nickname });
         sendPlayerUpadte();
-        if (sockets.length === 2) {
-            startGame();
-        }
+        startGame();
     });
     
     socket.on(events.disconnect, () => {
@@ -89,6 +95,5 @@ const socketController = (socket,io) => {
     })
 };
 
-// setInterval(() => console.log(sockets), 3000);
 
 export default socketController;

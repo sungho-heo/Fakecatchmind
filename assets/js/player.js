@@ -28,6 +28,7 @@ export const handleGameStarted = () => {
     setNotif("");
     disableCanvas();
     hideControls();
+    enableChat();
 }
 
 export const handlePainterNotif = ({word}) => {
