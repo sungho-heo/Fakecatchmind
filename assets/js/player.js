@@ -19,8 +19,8 @@ const addPlayer = (players) => {
 }
 
 const setNotif = (text) => {
-    notifs.textContent = "";
-    notifs.textContent = text;
+    notifs.innerText = "";
+    notifs.innerText = text;
 };
 
 export const handlePlayerUpdate = ({ sockets }) => addPlayer(sockets);
@@ -55,7 +55,7 @@ export const handleGameStarting = () => {
             setNotif("Game start");
         };
     };
-    var countdownInterval = setInterval(updateCountdown, 1000);
+    const countdownInterval = setInterval(updateCountdown, 1000);
 }
 
 

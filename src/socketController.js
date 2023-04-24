@@ -25,7 +25,8 @@ const socketController = (socket,io) => {
                 setTimeout(() => {
                     allBroadcast(events.gameStarted);
                     io.to(painter.id).emit(events.painterNotif, { word });
-                    timeout = setTimeout(endGame, 10000);
+                    allBroadcast(events.gameTime);
+                    timeout = setTimeout(endGame, 150*1000);
                 }, 5000);
             }
         }
