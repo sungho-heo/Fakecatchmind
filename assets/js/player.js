@@ -19,8 +19,8 @@ const addPlayer = (players) => {
 }
 
 const setNotif = (text) => {
-    notifs.innerText = "";
-    notifs.innerText = text;
+    notifs.textContent = "";
+    notifs.textContent = text;
 };
 
 export const handlePlayerUpdate = ({ sockets }) => addPlayer(sockets);
@@ -45,6 +45,19 @@ export const handleGameEnded = () => {
     resetCanvas();
 }
 
-export const handleGameStarting = () => setNotif("Game will start soon");
+export const handleGameStarting = () => {
+    let countdownTime = 5;
+    const updateCountdown = () => {
+        countdownTime--;
+        setNotif(`Game will start soon ${countdownTime}`);
+        if (countdownTime <= 0) {
+            clearInterval(countdownInterval);
+            setNotif("Game start");
+        };
+    };
+    var countdownInterval = setInterval(updateCountdown, 1000);
+}
+
+
 
 
