@@ -3,7 +3,7 @@ import morgan from "morgan";
 import { Server } from "socket.io"
 import socketController from "./socketController";
 import events from "./events";
-// import apiRouter from "./router/apiRouter";
+
 
 const app = express();
 const loggerMorgan = morgan("dev");
@@ -20,7 +20,7 @@ const handelListen = (req, res) => {
     console.log(`✅ Server running: http://localhost:${PORT}/`);
 }
 
-// app.use("/api", apiRouter);
+
 const server = app.listen(PORT, handelListen);
 
 const io = new Server(server);
